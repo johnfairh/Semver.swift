@@ -64,7 +64,7 @@ extension Semver {
             guard !scanner.isAtEnd else {
                 return "0"
             }
-            scanner.scanString(dotDelimiter, into: nil)
+            _ = scanner.scanString(dotDelimiter)
             guard let digits = scanner.scanCharacters(from: CharacterSet.decimalDigits) else {
                 throw ParsingError.digitsNotFound(scanner.string)
             }
@@ -73,7 +73,7 @@ extension Semver {
         minor = try scanNextVersion(versionScanner)
         patch = try scanNextVersion(versionScanner)
 
-        let scanIndex = String.Index(utf16Offset: scanner.scanLocation, in: input)
+        let scanIndex = scanner.currentIndex
         var remainder = String(input[scanIndex...])
         do {
             let prereleaseRegex = try NSRegularExpression(pattern: "(?<=^\(prereleaseDelimiter))([0-9A-Za-z-\\\(dotDelimiter)]+)")
@@ -146,20 +146,5 @@ extension String {
         return regex.firstMatch(in: self, range: NSRange(location: 0, length: self.count))
             .map { Range($0.range, in: self)! }
             .map { String(self[$0]) }
-    }
-}
-
-extension Scanner {
-
-    fileprivate func scanUpToCharacters(from: CharacterSet) -> String? {
-        var str: NSString?
-        scanUpToCharacters(from: from, into: &str)
-        return str as String?
-    }
-
-    fileprivate func scanCharacters(from: CharacterSet) -> String? {
-        var str: NSString?
-        scanCharacters(from: from, into: &str)
-        return str as String?
     }
 }

@@ -4,6 +4,9 @@ import PackageDescription
 
 let package = Package(
     name: "Semver",
+    platforms: [
+      .macOS("10.15"),
+    ],
     products: [
         .library(
             name: "Semver",
