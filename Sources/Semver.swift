@@ -18,7 +18,7 @@ import Foundation
  *   - prereleaseIdentifiers: dot separated list of pre-release identifiers.
  *   - buildMetadataIdentifiers: dot separated list of build metadata identifiers.
  */
-public struct Semver: CustomStringConvertible, Comparable {
+public struct Semver: CustomStringConvertible, Comparable, Sendable {
 
     public let major: String
     public let minor: String
@@ -91,7 +91,7 @@ extension Semver {
     /// - compact: Specifies a compact style, *Major.Minor.Patch* only
     /// - comparable: Specifies a COMPARABLE style, *Major.Minor.Patch-PreReleaseIdentifiers*
     /// - full: Specifies a FULL style, *Major.Minor.Patch-PreReleaseIdentifiers+BuildMetadataIdentifiers*
-    public enum Style {
+    public enum Style: Sendable {
         /// Specifies a compact style, *Major.Minor.Patch* only, such as “1.2.3”.
         case compact
         /// Specifies a COMPARABLE style, *Major.Minor.Patch-PreReleaseIdentifiers*, such as “1.2.3-rc.1”.
