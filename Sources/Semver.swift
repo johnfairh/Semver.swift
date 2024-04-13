@@ -18,7 +18,7 @@ import Foundation
  *   - prereleaseIdentifiers: dot separated list of pre-release identifiers.
  *   - buildMetadataIdentifiers: dot separated list of build metadata identifiers.
  */
-public struct Semver: CustomStringConvertible, Comparable, Sendable {
+public struct Semver: CustomStringConvertible, Comparable, Sendable, Hashable {
 
     public let major: String
     public let minor: String
@@ -82,6 +82,10 @@ public struct Semver: CustomStringConvertible, Comparable, Sendable {
         case .compact:
             return version
         }
+    }
+
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(description)
     }
 }
 
